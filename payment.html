@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        form{
+            width: 20%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+        form>input{
+            margin:10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Make your Payment</h1>
+    <form action="">
+        <input type="number" placeholder="Enter your card Number" required>
+        <input type="number" placeholder="Enter CVV" required>
+        <input type="text" placeholder="Enter your name">
+        <input type="month" required>
+        <input type="submit" value="Place Order">
+    </form>
+</body>
+<script>
+    document.querySelector('form').addEventListener('submit',()=>{
+        event.preventDefault();
+        var result=document.createElement('h2');
+        result.innerText="Your order is successfully Placed";
+        document.querySelector('body').append(result);
+    })
+</script>
+</html>

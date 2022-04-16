@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #container{
+        width:90%;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap:30px;
+    }
+    #container>div{
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        padding: 30px;
+        border-radius: 10px;
+    }
+    #container >div>img{
+        display: block;
+        margin: auto;
+    }
+    #container>div>div{
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+<body>
+
+
+    <select  id="sorting">
+        <option value="None">
+            None
+        </option>
+        <option value="PriceHighLow">
+            Sort by Price->High To Low
+        </option>
+        <option value="PriceLowHigh">
+            Sort by Price->Low To High
+        </option>
+        <option value="RatingHighLow">
+            Sort by Rating->High To Low
+        </option>
+        <option value="RatingLowHigh">
+            Sort by Rating->Low To High
+        </option>
+    </select>
+    <a href="cart.html">Go To Cart</a>
+    <div id="container">
+
+    </div>
+</body>
+<script>
+    var data = [
+    {
+      name: "SAMSUNG Galaxy F12",
+      rating: 4,
+      image_url:
+        "https://rukminim1.flixcart.com/image/312/312/kn22m4w0/mobile/a/q/8/galaxy-f12-sm-f127gzgiins-samsung-original-imagftmjw3xqg4yk.jpeg?q=70",
+      price: 11499,
+    },
+    {
+      name: "SAMSUNG Galaxy F42",
+      rating: 4.2,
+      image_url:
+        "https://rukminim1.flixcart.com/image/312/312/ku4ezrk0/mobile/v/5/e/galaxy-f42-5g-sm-e426bzahins-samsung-original-imag7anfwxsgumgz.jpeg?q=70",
+      price: 12199,
+    },
+    {
+      name: "Apple Iphone 12",
+      rating: 4.6,
+      image_url:
+        "https://rukminim1.flixcart.com/image/312/312/kg8avm80/mobile/r/h/z/apple-iphone-12-dummyapplefsn-original-imafwg8dqgncgbcb.jpeg?q=70",
+      price: 59999,
+    },
+    {
+      name: "APPLE iPhone 12 Mini",
+      rating: 4.5,
+      image_url:
+        "https://rukminim1.flixcart.com/image/312/312/kg8avm80/mobile/d/g/b/apple-iphone-12-mini-dummyapplefsn-original-imafwgbfhfevaajh.jpeg?q=70",
+      price: 49999,
+    },
+    {
+      name: "OPPO A12",
+      rating: 3.8,
+      image_url:
+        "https://rukminim1.flixcart.com/image/312/312/kb1470w0/mobile/q/g/g/oppo-a12-cph2083-original-imafsh2hfkyamqyt.jpeg?q=70",
+      price: 9490,
+    },
+    {
+      name: "ASUS ROG Phone 3",
+      rating: 4.9,
+      image_url:
+        "https://rukminim1.flixcart.com/image/312/312/kcuug7k0/mobile/g/h/e/asus-rog-phone-3-zs661ks-6a006in-original-imaftwc6nmyuyekd.jpeg?q=70",
+      price: 46999,
+    },
+    {
+      name: "DIZO Star 300",
+      rating: 3.4,
+      image_url:
+        "https://rukminim1.flixcart.com/image/312/312/kqpj4i80/mobile/e/i/r/star-300-dh2001-dizo-original-imag4nmpv7zahzs2.jpeg?q=70",
+      price: 1299,
+    },
+    {
+      name: "Micromax IN Note 1 ",
+      rating: 4.4,
+      image_url:
+        "https://rukminim1.flixcart.com/image/312/312/ku5ufm80/mobile/v/t/1/in-note-1-e7746-micromax-original-imag7cdgz6tqychm.jpeg?q=70",
+      price: 10999,
+    },
+    {
+      name: "SAMSUNG Galaxy Z Fold3 5G",
+      rating: 4,
+      image_url:
+        "https://rukminim1.flixcart.com/image/312/312/ksqeky80/mobile/x/7/1/galaxy-z-fold3-5g-sm-f926bzgdinu-samsung-original-imag68q6hpdwmngw.jpeg?q=70",
+      price: 149999,
+    },
+  ];
+    var cart;
+  if(localStorage.getItem('cartData')==null){
+      cart=[];
+  }
+  else{
+      cart=JSON.parse(localStorage.getItem('cartData'));
+  }
+  localStorage.setItem('data',JSON.stringify(data));
+
+  var displayData=JSON.parse(localStorage.getItem('data'));
+
+  displayFunc();
+
+  document.querySelector('#sorting').addEventListener('change',()=>{
+    var sortValue=document.querySelector('#sorting').value;
+    if(sortValue=='PriceHighLow'){
+      displayData.sort((a,b)=>b.price-a.price);
+    }
+    else if(sortValue=='PriceLowHigh'){
+        displayData.sort((a,b)=>a.price-b.price);
+    }
+    else if(sortValue=='RatingHighLow'){
+        displayData.sort((a,b)=>b.rating-a.rating);
+    }
+    else if(sortValue=='RatingLowHigh'){
+        displayData.sort((a,b)=>a.rating-b.rating);
+    }
+    else{
+        displayData=JSON.parse(localStorage.getItem('data'));
+    }
+
+    displayFunc();
+  });
+
+
+
+  
+
+  function displayFunc(){
+    document.querySelector('#container').innerHTML="";
+    displayData.forEach((element)=>{
+    var box=document.createElement('div');
+    var image=document.createElement('img');
+    var productName=document.createElement('h3');
+    var cost=document.createElement('h4');
+    var review=document.createElement('h4');
+    var innerBox=document.createElement('div');
+    var btn=document.createElement('button');
+    btn.innerText='Add to cart';
+    btn.addEventListener('click',()=>{
+        cart.push(element);
+        localStorage.setItem('cartData',JSON.stringify(cart));
+    })
+    innerBox.append(cost,review);
+    image.src=element.image_url;
+    productName.innerText=element.name;
+    cost.innerText="Rs. "+element.price;
+    review.innerText="Rating : "+element.rating;
+    box.append(image,productName,innerBox,btn);
+    document.querySelector('#container').append(box);
+
+  });
+  }
+
+
+</script>
+</html>

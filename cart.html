@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    #container{
+        width:90%;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap:30px;
+    }
+    #container>div{
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+        padding: 30px;
+        border-radius: 10px;
+    }
+    #container >div>img{
+        display: block;
+        margin: auto;
+    }
+    #container>div>div{
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+<body>
+    <h2 id="result"></h2>
+    <form action="">
+        <input type="text" placeholder="Enter Promocode">
+        <input type="submit" value="Apply Promo">
+    </form>
+
+    <a href="checkout.html">
+        Go to Checkout
+    </a>
+    <div id="container">
+
+    </div>
+</body>
+<script>
+    if(localStorage.getItem('cartData')==null){
+      cart=[];
+  }
+  else{
+      cart=JSON.parse(localStorage.getItem('cartData'));
+  }
+  var total=0;
+  document.querySelector('form').addEventListener('submit',()=>{
+      event.preventDefault();
+      total=cart.reduce((sum,ele,index,arr)=>{
+          return sum+ele.price;
+      },0);
+      if(document.querySelector('form >input:first-child').value=='masai30'){
+          total=total-Math.floor((30*total)/100);
+      }
+      document.querySelector('#result').innerText="Total Price of all items is Rs: "+total;
+  });
+  
+  cart.forEach((element,index)=>{
+    var box=document.createElement('div');
+    var image=document.createElement('img');
+    var productName=document.createElement('h3');
+    var cost=document.createElement('h4');
+    var review=document.createElement('h4');
+    var innerBox=document.createElement('div');
+    var btn=document.createElement('button');
+    btn.innerText='Remove from cart';
+    btn.addEventListener('click',()=>{
+        cart.splice(index,1);
+        localStorage.setItem('cartData',JSON.stringify(cart));
+        window.location.reload();
+    })
+    total=total+element.price;
+    innerBox.append(cost,review);
+    image.src=element.image_url;
+    productName.innerText=element.name;
+    cost.innerText="Rs. "+element.price;
+    review.innerText="Rating : "+element.rating;
+    box.append(image,productName,innerBox,btn);
+    document.querySelector('#container').append(box);
+  });
+  
+  document.querySelector('#result').innerText="Total Price of all items is Rs: "+total;
+
+  
+</script>
+</html>
